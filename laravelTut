@@ -1,0 +1,138 @@
+composer create-project --prefer-dist laravel/laravel blog
+
+php artisan make:migration create_table_users_migration --create=users
+
+php artisan migrate, php artisan migrate:rollback
+
+php artisan db:seed
+
+php artisan db:seed --class=UsersTableSeeder
+
+Pagination
+----------
+MODEL::paginate(15);
+
+@foreach($users as $user)
+{{$user->name}}
+@endforeach
+
+{{$users->links()}}
+
+
+Validation
+----------
+$validator = Validation::make($request->all(),['name'=>'required|max:5','email'=>'required|email']);
+		if($validator->fails())
+		{
+                 return redirect('/')->withInput()->withErrors($validator);
+		}
+		redirect()->route();
+		redirect()->back();
+		{{ route('') }}
+		View::make('filename',$this->data);
+View
+-----
+  		@foreach($erros->all() as $err)
+			{{$error}}
+		@endforeach
+
+Validation With Ajax
+----------
+https://appdividend.com/2018/02/08/laravel-ajax-validation-tutorial-scratch/
+
+Add for DELETE, PUT. {{method_field('DELETE')}}
+
+<input type="hidden" name="token" value="{{ $token }}">
+
+
+Route
+-----
+Route::group(['as'=>'admin','middleware'=>['',''],'namespace'=>'','prefix'=>'Admins'],function(){
+
+Route::get('/admin/dashboard',['as'=>'dashboards','uses'=>'usercontroller@functionname']);
+
+});
+
+filters
+-------
+Route::get('user/{name}', function ($name) {
+    //
+})->where('name', '[A-Za-z]+');
+
+Route::get('user/{id}', function ($id) {
+    //
+})->where('id', '[0-9]+');
+
+Route::get('user/{id}/{name}', function ($id, $name) {
+    //
+})->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+HEADERS
+-------
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+$.ajax({
+   headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')}
+});
+
+
+relationships
+-------------
+$this->hasMany();
+$this->belongsTo('modelname','id','foreignkey');
+
+Eager Loading
+-------------
+Post::with('comments')->get();
+Post::with('comments:id,comments')->get();
+
+
+Authentication
+---------------
+Auth::user();
+if(Auth::check()){} //user loggedin or not
+if(Auth::attempt(['email'=>,'password'=>]))
+{
+  return redirect()->route() or intended('dashboard')
+}
+
+Auth::logout();
+
+remembering user
+---------------
+if(Auth::attempt([''=>'',''=>''],$remember))
+
+install excel
+---------------
+composer require maatwebsite/excel or composer require "maatwebsite/excel":"~2.1.0"
+
+Add details in config/app.php
+'providers' => [
+
+	....
+
+	Maatwebsite\Excel\ExcelServiceProvider::class,
+
+],
+
+'aliases' => [
+
+	....
+
+	'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
+],
+
+$data = Item::get()->toArray();
+            
+        return Excel::create('itsolutionstuff_example', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
+
+CART ITEMS
+----------
+https://github.com/Crinsane/LaravelShoppingcart
+

@@ -1,0 +1,65 @@
+php artisan make:resource UserResource
+php artisan make:model ModelName
+
+in Resource File/class
+
+toArray()
+{
+  ['id' => '', '' =>'']
+}
+
+in Controller
+--------------
+$task = User::find(1);
+return new UserResource($task);
+
+return UserResource::collection(User::all());
+
+
+Yajra Tables
+-------------
+composer require yajra/laravel-datatables-oracle
+'providers' => [
+        // ...
+        Yajra\Datatables\DatatablesServiceProvider::class,
+    ]
+'aliases' => [
+        // ...
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+    ]
+
+use Datatables;//controller 
+$query = Modelname::all();
+
+return Datatables::of($query)
+->edit_column('column_name',function($row){
+})
+->add_column('user_Define_column_name',function($row){return $row->id; })
+->remove_column('column_name')
+->make(true);
+
+
+<table ID="tableajax">
+ 	<thead><tr>
+		<th></th></tr>
+	</thead>
+	<tbody>
+		
+	</tbody>	
+</table>
+$(function(){
+$('#tableajax').DataTable({
+	processing: true,
+	serverSide: true,
+	ajax: '{{route('indexx')}}',
+	columns: [
+			{data:'', name: ''}
+		]
+});
+
+});
+
+ Regular Expressions
+---------------------
+$pattern = /[a-zA-Z0-9]*$.com/
+
